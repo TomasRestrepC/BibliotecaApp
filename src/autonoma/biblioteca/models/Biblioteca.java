@@ -12,37 +12,48 @@ package autonoma.biblioteca.models;
 import java.util.ArrayList;
 
 public class Biblioteca {
-    
-    private ArrayList libros; 
+    private ArrayList<Libro> libros;
 
-    public Biblioteca(ArrayList libros) {
-        this.libros = libros;
+    public Biblioteca() {
+        this.libros = new ArrayList<>();
     }
-    
-    
-    
-    public String mostrarLibros(){
-        return libro;
+
+    public String mostrarLibros() {
+        StringBuilder resultado = new StringBuilder();
+        for (Libro libro : libros) {
+            resultado.append("ID: ").append(libro.getId()).append(", Título: ").append(libro.getTitulo()).append("\n");
+        }
+        return resultado.toString();
     }
-    
-    public boolean agregarLibro(Libro){
-        
-    
+
+    public boolean agregarLibro(Libro libro) {
+        return libros.add(libro);
     }
-    
-    public Libro buscarLibro(long){
-        
+
+    public Libro buscarLibro(long id) {
+        for (Libro libro : libros) {
+            if (libro.getId() == id) {
+                return libro;
+            }
+        }
+        return null;
     }
-    
-    public boolean actualizarLibro(long,Libro){
-        
+
+    public boolean actualizarLibro(long id, Libro nuevoLibro) {
+        for (int i = 0; i < libros.size(); i++) {
+            if (libros.get(i).getId() == id) {
+                libros.set(i, nuevoLibro);
+                return true;
+            }
+        }
+        return false;
     }
-    
-    public boolean eliminarLibro(long){
-        
+
+    public boolean eliminarLibro(long id) {
+        return libros.removeIf(libro -> libro.getId() == id);
     }
-    
-    public ArrayList<Libro>(){
-        
+
+    public ArrayList<Libro> obtenerLibros() {
+        return libros;
     }
 }
