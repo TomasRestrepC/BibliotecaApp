@@ -10,24 +10,29 @@ package autonoma.biblioteca.models;
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Biblioteca {
+
     private ArrayList<Libro> libros;
 
     public Biblioteca() {
         this.libros = new ArrayList<>();
     }
 
-    public String mostrarLibros() {
-        StringBuilder resultado = new StringBuilder();
-        for (Libro libro : libros) {
-            resultado.append("ID: ").append(libro.getId()).append(", Título: ").append(libro.getTitulo()).append("\n");
+    public boolean agregarLibro(Libro libro) {
+        for (Libro l : libros) {
+            if (l.getId() == libro.getId()) {
+                return false; // Ya existe un libro con ese ID
+            }
         }
-        return resultado.toString();
+        libros.add(libro);
+        return true;
     }
 
-    public boolean agregarLibro(Libro libro) {
-        return libros.add(libro);
+    public boolean eliminarLibro(long id) {
+        return libros.removeIf(libro -> libro.getId() == id);
     }
 
     public Libro buscarLibro(long id) {
@@ -49,11 +54,22 @@ public class Biblioteca {
         return false;
     }
 
-    public boolean eliminarLibro(long id) {
-        return libros.removeIf(libro -> libro.getId() == id);
-    }
-
     public ArrayList<Libro> obtenerLibros() {
         return libros;
+    }
+
+    public void ordenarLibrosAlfabeticamente() {
+        Collections.sort(libros, Comparator.comparing(Libro::getTitulo));
+    }
+
+    public String mostrarLibros() {
+        if (libros.isEmpty()) {
+            return "No hay libros en la biblioteca.";
+        }
+        StringBuilder sb = new StringBuilder();
+        for (Libro libro : libros) {
+            sb.append("ID: ").append(libro.getId()).append(", Título: ").append(libro.getTitulo()).append("\n");
+        }
+        return sb.toString();
     }
 }
